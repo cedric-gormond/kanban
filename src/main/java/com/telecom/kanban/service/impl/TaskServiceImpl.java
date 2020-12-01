@@ -46,8 +46,11 @@ public class TaskServiceImpl implements TaskService {
         TaskStatus todo = this.findTaskStatus((long)1);
         task.setStatus(todo);
         task.setCreated(LocalDate.now());
+        taskRepository.save(task);
 
-        return (!taskRepository.existsById(task.getId())) ? this.taskRepository.save(task) : null;
+        // (!taskRepository.existsById(task.getId())) ? this.taskRepository.save(task) : null;
+        // Line above doesn't work because is doesn't have an ID
+        return taskRepository.save(task);
     }
 
     /**

@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,11 +45,12 @@ public class Task {
     private TaskStatus status;
 
     @ManyToMany(fetch=FetchType.EAGER)
-
+    @JsonIgnoreProperties({"password", "startContract", "tasks"})
     @EqualsAndHashCode.Exclude
     private Set<Developer> developers;
 
-    @OneToMany(mappedBy="task")
+    @OneToMany(mappedBy="task",  cascade={CascadeType.ALL}, orphanRemoval=true)
+    @JsonIgnoreProperties("task")
     @EqualsAndHashCode.Exclude
     private Set<ChangeLog> changeLogs;
 

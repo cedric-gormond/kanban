@@ -29,4 +29,9 @@ public class DeveloperServiceImpl implements DeveloperService {
     public Collection<Developer> findAllDevelopers() {
         return developerRepository.findAll();
     }
+
+    @Override
+    public Developer findByIDDeveloper(Long id) {
+        return developerRepository.findById(id).orElse(null);
+    }
 }

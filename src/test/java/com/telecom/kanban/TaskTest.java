@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,7 +23,7 @@ import java.util.Collection;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Slf4j //logger
-@ActiveProfiles(profiles = "test")
+@AutoConfigureMockMvc
 /**
  * Performs JUnit test for {@link Task} and {@link TaskService}.
  *
@@ -67,9 +68,42 @@ public class TaskTest {
      */
     @Test
     public void testCreateTask() {
+
+        Developer developer = this.developerService.findAllDevelopers().iterator().next();
+        TaskStatus todoStatus = this.taskService.findTaskStatus(1l);
+
         Task task = new Task();
-        Task task1 = taskService.createTask(task);
+        task.setNbHoursForecast(0);
+        task.setNbHoursReal(0);
+        task.setTitle("title");
+        task.setStatus(todoStatus);
+        task.addDeveloper(developer);
+
         Assert.assertEquals(task, this.taskService.createTask(task));
+    }
+
+    /**
+     *Testing the creation of a {@link Task} by creating one and deleting afterward. Size of the repository must be
+     * equal to 1.
+     */
+    @Test
+    public void testDeleteTask() {
+
+        Developer developer = this.developerService.findAllDevelopers().iterator().next();
+        TaskStatus todoStatus = this.taskService.findTaskStatus(1l);
+
+        // create
+        Task task = new Task();
+        task.setNbHoursForecast(0);
+        task.setNbHoursReal(0);
+        task.setTitle("Task to delete");
+        task.setStatus(todoStatus);
+        task.addDeveloper(developer);
+
+        this.taskService.createTask(task);
+
+        // Delete it
+        Assert.assertEquals(1, this.taskService.findAllTasks());
     }
 
     /**

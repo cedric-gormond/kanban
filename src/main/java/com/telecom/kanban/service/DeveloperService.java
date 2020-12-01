@@ -18,4 +18,11 @@ public interface DeveloperService {
      * @return a collection of {@link Developer}
      */
     public Collection<Developer> findAllDevelopers();
+
+    /**
+     * Find a developper by an ID
+     * @param id
+     * @return
+     */
+    public Developer findByIDDeveloper(Long id);
 }
