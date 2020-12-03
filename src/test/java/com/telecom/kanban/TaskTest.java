@@ -83,8 +83,8 @@ public class TaskTest {
     }
 
     /**
-     *Testing the creation of a {@link Task} by creating one and deleting afterward. Size of the repository must be
-     * equal to 1.
+     * Testing the creation of a {@link Task} by creating one and deleting afterward. In this way, the size of the
+     * repository must be equal to 1.
      */
     @Test
     public void testDeleteTask() {
@@ -92,7 +92,7 @@ public class TaskTest {
         Developer developer = this.developerService.findAllDevelopers().iterator().next();
         TaskStatus todoStatus = this.taskService.findTaskStatus(1l);
 
-        // create
+        // Task instance
         Task task = new Task();
         task.setNbHoursForecast(0);
         task.setNbHoursReal(0);
@@ -100,6 +100,7 @@ public class TaskTest {
         task.setStatus(todoStatus);
         task.addDeveloper(developer);
 
+        // create a Task in the service
         this.taskService.createTask(task);
 
         // Delete it
@@ -107,34 +108,35 @@ public class TaskTest {
     }
 
     /**
-     * Testing if {@link TaskService} returns a collection with a single {@link Task}
+     * Testing if {@link TaskService} returns a collection with a single {@link Task}.
+     *
+     * The task was loaded thanks to {@link com.telecom.kanban.runner.LoadDataBaseRunner} class.
      */
     @Test
     public void testFindAllTasks() {
-
         Collection<Task> tasks = this.taskService.findAllTasks();
-
         Assert.assertEquals(1, tasks.size());
     }
 
     /**
-     * Testing if {@link TaskService} returns a collection with a 2 {@link TaskType}
+     * Testing if {@link TaskService} returns a collection with a 2 {@link TaskType} : BUG, FEATURE
+     *
+     * They were loaded thanks to {@link com.telecom.kanban.runner.LoadDataBaseRunner} class.
      */
     @Test
     public void testFindAllTaskTypes() {
-
         Collection<TaskType> taskTypes = this.taskService.findAllTaskTypes();
         Assert.assertEquals(2, taskTypes.size());
     }
 
     /**
-     * Testing if {@link TaskService} returns a collection with a 4 {@link TaskStatus}
+     * Testing if {@link TaskService} returns a collection with a 4 {@link TaskStatus} : TODO, DOING, TEST, LABEL
+     *
+     * They were loaded thanks to {@link com.telecom.kanban.runner.LoadDataBaseRunner} class.
      */
     @Test
     public void testFindAllTaskStatus() {
-
         Collection<TaskStatus> taskStatus = this.taskService.findAllTaskStatus();
-
         Assert.assertEquals(4, taskStatus.size());
     }
 

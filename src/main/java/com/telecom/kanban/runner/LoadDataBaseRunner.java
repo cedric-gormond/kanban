@@ -29,11 +29,10 @@ import java.time.Month;
  * instances as developers, tasks, ...
  *
  * @author Cédric Gormond
- *
- * */
+ */
 public class LoadDataBaseRunner implements CommandLineRunner {
 
-    // Constant
+    // Constants
     final public static Long TASK_STATUS_TODO_ID = (long)1;
     final public static Long TASK_STATUS_DOING_ID = (long)2;
     final public static Long TASK_STATUS_TEST_ID = (long)3;

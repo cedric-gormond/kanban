@@ -14,15 +14,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collection;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
 /**
  * Performs JUnit test for developers
+ *
+ *
+ * @author Cédric GORMOND
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class DeveloperTest {
     @Autowired
     private DeveloperService developerService;
 
+    /**
+     * Test if 2 {@link Developer} are presents in {@link DeveloperService}.
+     *
+     * They were loaded thanks to {@link com.telecom.kanban.runner.LoadDataBaseRunner} class.
+     */
     @Test
     public void testFindAllDevelopers() {
         Collection<Developer> developers = this.developerService.findAllDevelopers();
