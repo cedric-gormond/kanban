@@ -88,8 +88,6 @@ public class LoadDataBaseRunner implements CommandLineRunner {
             logger.info("Created {}", task);
         });
         */
-
-
         logger.info("LOAD DB RUNNER : Ending test runner");
     }
 
@@ -119,7 +117,7 @@ public class LoadDataBaseRunner implements CommandLineRunner {
     }
 
     /**
-     * Initialization of {@link TaskStatusRepository} with 4 {@link TaskStatus} : TODO, DOING, TEST, LABEL
+     * Initialization of {@link TaskStatusRepository} with 4 {@link TaskStatus} : TODO, DOING, TEST, DONE
      *
      * @param taskStatusRepository
      */
@@ -135,7 +133,7 @@ public class LoadDataBaseRunner implements CommandLineRunner {
         TaskStatus test = new TaskStatus(TASK_STATUS_TEST_ID, "TEST");
         taskStatusRepository.save(test);
 
-        TaskStatus done = new TaskStatus(TASK_STATUS_DONE_ID, "LABEL");
+        TaskStatus done = new TaskStatus(TASK_STATUS_DONE_ID, "DONE");
         taskStatusRepository.save(done);
     }
 
@@ -164,7 +162,6 @@ public class LoadDataBaseRunner implements CommandLineRunner {
         Task task = new Task();
         task.setTitle("Task of Cedric Gormond");
         task.setCreated(LocalDate.now());
-        task.setTitle("Task of Cedric Gormond");
         task.setNbHoursForecast(0);
         task.setNbHoursReal(0);
         task.addDeveloper(developerRepository.findById(1L).orElse(null));

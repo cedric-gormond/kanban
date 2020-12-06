@@ -43,13 +43,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Task createTask(Task task) {
-        TaskStatus todo = this.findTaskStatus((long)1);
-        task.setStatus(todo);
+
+        if(task.getStatus().equals(null)){
+            TaskStatus todo = this.findTaskStatus((long)1);
+            task.setStatus(todo);
+        }
         task.setCreated(LocalDate.now());
         taskRepository.save(task);
 
         // (!taskRepository.existsById(task.getId())) ? this.taskRepository.save(task) : null;
-        // Line above doesn't work because is doesn't have an ID
+        // Lines above doesn't work because is doesn't have an ID
         return taskRepository.save(task);
     }
 
@@ -176,6 +179,98 @@ public class TaskServiceImpl implements TaskService {
         task.addChangeLog(changeLog);
 
         return task;
+    }
+
+    /**
+     * Move a given {@link Task} to its next {@link TaskStatus}. For instance, a {@link Task} with a "to do" {@link TaskStatus}
+     * must be moved to a "doing" {@link TaskStatus}.
+     *
+     * @param task to move to the right
+     * @return task moved with its new {@link TaskStatus}.
+     */
+    @Override
+    public Task moveRightTask(Task task) {
+        TaskStatus targetStatus = this.getStatusForMovingRight(task.getStatus());
+        return this.changeTaskStatus(task, targetStatus);
+    }
+
+    /**
+     * Move a given {@link Task} to its previous {@link TaskStatus}. For instance, a {@link Task} with a "doing" {@link TaskStatus}
+     * must be moved to a "to do" {@link TaskStatus}.
+     *
+     * @param task to move to the left
+     * @return task moved with its new {@link TaskStatus}. If null cannot move further.
+     */
+    @Override
+    public Task moveLeftTask(Task task) {
+        TaskStatus targetStatus = this.getStatusForMovingLeft(task.getStatus());
+        return this.changeTaskStatus(task, targetStatus);
+    }
+
+    /**
+     * Get the targeted status in order to move right.
+     *
+     * @param status targeted status
+     * @return Targeted status. If null cannot move further.
+     *
+     * @exception IllegalArgumentException if given status is null
+     */
+    private TaskStatus getStatusForMovingRight(TaskStatus status) {
+
+        // Tasks status to compare
+        TaskStatus todoStatus = this.findTaskStatus(1l);
+        TaskStatus doingStatus = this.findTaskStatus(2l);
+        TaskStatus testStatus = this.findTaskStatus(3l);
+        TaskStatus doneStatus = this.findTaskStatus(4l);
+
+        TaskStatus result = null;
+
+        if (status != null) {
+            if (status.equals(todoStatus)) {
+                result = doingStatus;
+            } else if (status.equals(doingStatus)) {
+                result = testStatus;
+            } else if (status.equals(testStatus)) {
+                result = doneStatus;
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the targeted status in order to move left. Used in {@link TaskServiceImpl#moveLeftTask(Task)}
+     *
+     * @param status targeted status
+     * @return Targeted status. If null cannot move further.
+     *
+     * @exception IllegalArgumentException if given status is null
+     */
+    private TaskStatus getStatusForMovingLeft(TaskStatus status) {
+
+        // Task status to compare
+        TaskStatus todoStatus  = this.findTaskStatus(1l);
+        TaskStatus doingStatus = this.findTaskStatus(2l);
+        TaskStatus testStatus  = this.findTaskStatus(3l);
+        TaskStatus doneStatus  = this.findTaskStatus(4l);
+
+        TaskStatus result = null;
+
+        if (status != null) {
+             if (status.equals(doingStatus)) {
+                result = todoStatus;
+            } else if (status.equals(testStatus)) {
+                result = doingStatus;
+            } else if (status.equals(doneStatus)) {
+                result = testStatus;
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        return result;
     }
 
 }

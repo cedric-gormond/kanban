@@ -95,4 +95,23 @@ public interface TaskService {
      * @return {@link Task} with changed Status
      */
     public Task changeTaskStatus(Task task, TaskStatus newStatus);
+
+    /**
+     * Move a given {@link Task} to its next {@link TaskStatus}. For instance, a {@link Task} with a "to do" {@link TaskStatus}
+     * must be moved to a "doing" {@link TaskStatus}.
+     *
+     * @param task to move to the right
+     * @return task moved with its new {@link TaskStatus}
+     */
+    public Task moveRightTask(Task task);
+
+    /**
+     * Move a given {@link Task} to its previous {@link TaskStatus}. For instance, a {@link Task} with a "doing" {@link TaskStatus}
+     * must be moved to a "to do" {@link TaskStatus}.
+     *
+     * @param task to move to the left
+     * @return task moved with its new {@link TaskStatus}. If null cannot move further.
+     */
+    public Task moveLeftTask(Task task);
+
 }
