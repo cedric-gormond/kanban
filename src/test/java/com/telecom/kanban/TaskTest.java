@@ -105,7 +105,6 @@ public class TaskTest {
         // create a Task in the service
         this.taskService.createTask(task);
 
-        // Delete it : TODO je ne comprends pas l'erreur
         this.taskService.deleteTask(task);
 
         Assert.assertEquals(1, this.taskService.findAllTasks().size());
@@ -161,15 +160,6 @@ public class TaskTest {
 
         // testing by looking task
         Assert.assertEquals(taskStatus2, task.getStatus());
-
-        /*
-        // testing by looking logs
-        Assert.assertEquals(1, changeLogs.size());
-
-        ChangeLog changeLog = changeLogs.iterator().next();
-        Assert.assertEquals(taskStatus1, changeLog.getSourceStatus());
-        Assert.assertEquals(taskStatus2, changeLog.getTargetStatus());
-        */
     }
 
     @Test
@@ -227,7 +217,6 @@ public class TaskTest {
         task = this.taskService.moveLeftTask(task);
         Assert.assertEquals(testStatus, task.getStatus());
 
-                /*
         // Move right : test -> doing
         task = this.taskService.moveLeftTask(task);
         Assert.assertEquals(doingStatus, task.getStatus());
@@ -239,7 +228,7 @@ public class TaskTest {
         // Move right : done -> null
         task = this.taskService.moveLeftTask(task);
         Assert.assertEquals(null, task.getStatus());
-        */
+
         this.taskService.deleteTask(task);
     }
 
