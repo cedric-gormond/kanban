@@ -49,7 +49,7 @@ public class Task {
     @EqualsAndHashCode.Exclude
     private Set<Developer> developers;
 
-    @OneToMany(mappedBy="task",  cascade={CascadeType.ALL}, orphanRemoval=true)
+    @OneToMany(mappedBy="task",  cascade={CascadeType.ALL}, orphanRemoval=true, fetch= FetchType.EAGER)
     @JsonIgnoreProperties("task")
     @EqualsAndHashCode.Exclude
     private Set<ChangeLog> changeLogs;

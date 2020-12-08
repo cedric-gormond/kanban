@@ -106,7 +106,9 @@ public class TaskTest {
         this.taskService.createTask(task);
 
         // Delete it : TODO je ne comprends pas l'erreur
-        Assert.assertEquals(1, this.taskService.findAllTasks());
+        this.taskService.deleteTask(task);
+
+        Assert.assertEquals(1, this.taskService.findAllTasks().size());
     }
 
     /**
